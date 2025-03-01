@@ -3,6 +3,7 @@ import booksPath from "./routes/books.js";
 import authorsPath from "./routes/authors.js";
 import authPath from "./routes/auth.js";
 import usersPath from "./routes/users.js";
+import passwordPath from "./routes/password.js";
 import logger from "./middlewares/logger.js";
 import { notFound, errorHandler } from "./middlewares/errors.js";
 import dotenv from "dotenv";
@@ -18,7 +19,10 @@ const app = express();
 
 //Apply Middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(logger);
+
+app.set("view engine", "ejs");
 
 //Routes
 
@@ -32,6 +36,7 @@ const routes = {
   "/api/authors": authorsPath,
   "/api/auth": authPath,
   "/api/users": usersPath,
+  "/password": passwordPath,
 };
 
 Object.entries(routes).forEach(([path, handler]) => app.use(path, handler));

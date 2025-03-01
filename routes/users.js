@@ -5,7 +5,7 @@ import { deleteUser, getAllUsers, getUserById, updateUser } from "../controllers
 const router = express.Router();
 
 // api/users
-router.get("/", verifyTokenAndAdmin, getAllUsers);
+router.route("/").get(verifyTokenAndAdmin, getAllUsers);
 
 // api/users/:id
 router.route("/:id")
