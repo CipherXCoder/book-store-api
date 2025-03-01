@@ -4,10 +4,15 @@ import authorsPath from "./routes/authors.js";
 import authPath from "./routes/auth.js";
 import usersPath from "./routes/users.js";
 import passwordPath from "./routes/password.js";
+import uploadPath from "./routes/upload.js";
 import logger from "./middlewares/logger.js";
 import { notFound, errorHandler } from "./middlewares/errors.js";
 import dotenv from "dotenv";
 import connectToDb from "./config/db.js";
+import { __dirname } from "./dirname.js";
+import path from "node:path";
+import helmet from "helmet";
+import cors from "cors";
 
 dotenv.config();
 
@@ -17,11 +22,21 @@ connectToDb();
 //Init App
 const app = express();
 
+// Static folder
+app.use(express.static(path.join(__dirname, "images")));
+
 //Apply Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger);
 
+//Helmet
+app.use(helmet());
+
+//Cors
+app.use(cors());
+
+//Set View Engine
 app.set("view engine", "ejs");
 
 //Routes
@@ -36,6 +51,7 @@ const routes = {
   "/api/authors": authorsPath,
   "/api/auth": authPath,
   "/api/users": usersPath,
+  "/api/upload": uploadPath,
   "/password": passwordPath,
 };
 
